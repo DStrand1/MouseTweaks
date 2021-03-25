@@ -11,6 +11,7 @@ import yalter.mousetweaks.api.IMTModGuiContainer;
 import yalter.mousetweaks.api.IMTModGuiContainer2;
 import yalter.mousetweaks.api.IMTModGuiContainer2Ex;
 import yalter.mousetweaks.config.MTConfig;
+import yalter.mousetweaks.config.WheelSearchOrder;
 import yalter.mousetweaks.impl.*;
 import yalter.mousetweaks.handlers.*;
 import yalter.mousetweaks.reflect.Reflection;
@@ -32,7 +33,6 @@ public class Main {
 
     private static IGuiScreenHandler handler = null;
 
-    private static boolean readConfig = false;
     private static boolean initialized = false;
     private static boolean disabled = false;
 
@@ -63,7 +63,6 @@ public class Main {
             firstRightClickedSlot = null;
             disableForThisContainer = false;
             disableWheelForThisContainer = false;
-            readConfig = true;
 
             handler = null;
         } else {
@@ -244,10 +243,10 @@ public class Main {
         List<Slot> slots = handler.getSlots();
 
         boolean pushItems = wheel < 0;
-        if (MTConfig.wheelScrollDirection().isPositionAware() && otherInventoryIsAbove(selectedSlot, slots)) {
+        if (MTConfig.wheelScrollDirection.isPositionAware() && otherInventoryIsAbove(selectedSlot, slots)) {
             pushItems = !pushItems;
         }
-        if (MTConfig.wheelScrollDirection().isInverted()) {
+        if (MTConfig.wheelScrollDirection.isInverted()) {
             pushItems = !pushItems;
         }
 
@@ -381,7 +380,7 @@ public class Main {
 
     private static Slot findWheelApplicableSlot(List<Slot> slots, Slot selectedSlot, boolean pushItems) {
         int startIndex, endIndex, direction;
-        if (pushItems || MTConfig.wheelSearchOrder() == WheelSearchOrder.FIRST_TO_LAST) {
+        if (pushItems || MTConfig.wheelSearchOrder == WheelSearchOrder.FIRST_TO_LAST) {
             startIndex = 0;
             endIndex = slots.size();
             direction = 1;

@@ -1,26 +1,24 @@
-package yalter.mousetweaks.impl;
+package yalter.mousetweaks.config;
 
 public enum ScrollItemScaling {
-    PROPORTIONAL(0), ALWAYS_ONE(1);
+
+    PROPORTIONAL("Relative to scroll amount"),
+    ALWAYS_ONE("Always exactly one item");
 
     public static final int scrollStep = 120;
 
-    private final int id;
+    private final String id;
 
-    ScrollItemScaling(int id) {
+    ScrollItemScaling(String id) {
         this.id = id;
     }
 
-    public int getValue() {
-        return id;
+    public String getValue() {
+        return this.id;
     }
 
-    public static ScrollItemScaling fromId(int id) {
-        if (id == PROPORTIONAL.id) {
-            return PROPORTIONAL;
-        } else {
-            return ALWAYS_ONE;
-        }
+    public static ScrollItemScaling fromId(int ordinal) {
+        return ordinal == 0 ? PROPORTIONAL : ALWAYS_ONE;
     }
 
     /**
@@ -35,5 +33,10 @@ public enum ScrollItemScaling {
             default:
                 throw new AssertionError();
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.getValue();
     }
 }

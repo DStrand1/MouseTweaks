@@ -1,8 +1,6 @@
 package yalter.mousetweaks.config;
 
 import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.Property;
-import yalter.mousetweaks.impl.*;
 import yalter.mousetweaks.util.Constants;
 
 @Config(modid = Constants.MOD_ID)
@@ -25,56 +23,22 @@ public class MTConfig {
     public static boolean wheelTweak = true;
 
     @Config.Comment("How to pick the source slot when pulling items via scrolling.")
-    private static final Property wheelSearchOrder = choiceProperty("Wheel tweak search order", "Last to first", "First to last");
+    @Config.Name("Wheel tweak search order")
+    public static WheelSearchOrder wheelSearchOrder = WheelSearchOrder.LAST_TO_FIRST;
 
     @Config.Comment("Inventory position aware means scroll up to push items from the bottom inventory and pull into the top inventory, and vice versa.")
-    private static final Property wheelScrollDirection = choiceProperty(
-            "Wheel tweak scroll direction",
-            "Down to push, up to pull",
-            "Up to push, down to pull",
-            "Inventory position aware",
-            "Inventory position aware, inverted"
-    );
+    @Config.Name("Wheel tweak scroll direction")
+    public static WheelScrollDirection wheelScrollDirection = WheelScrollDirection.NORMAL;
 
     @Config.Comment("When set to smooth scrolling, minor issues may be experienced such as scrolling \"through\" JEI or other mods. Non-smooth scrolling works only with the Forge OnTick method.")
-    private static final Property scrollHandling = choiceProperty(
-            "Scroll handling",
-            "Smooth scrolling, minor issues",
-            "Non-smooth scrolling, no issues"
-    );
+    @Config.Name("Scroll handling")
+    public static ScrollHandling scrollHandling = ScrollHandling.SIMPLE;
 
     @Config.Comment("This determines how many items are moved when you scroll. On some setups (notably macOS), scrolling the wheel with different speeds results in different distances scrolled per wheel \"bump\". To make those setups play nicely with Mouse Tweaks, set this option to \"Always exactly one item\".")
-    private static final Property scrollItemScaling = choiceProperty(
-            "Scroll item scaling",
-            "Relative to scroll amount",
-            "Always exactly one item"
-    );
+    @Config.Name("Scroll item scaling")
+    public static ScrollItemScaling scrollItemScaling = ScrollItemScaling.PROPORTIONAL;
 
     @Config.Comment("Enables debug logging output.")
     @Config.Name("Debug")
     public static boolean debug = false;
-
-    /**
-     * creates a new string property with the given valid values, taking the first valid value as default
-     */
-    private static Property choiceProperty(String name, String... values) {
-        return new Property(name, values[0], Property.Type.STRING, values);
-    }
-
-    // TODO Fix these getters
-    public static WheelSearchOrder wheelSearchOrder() {
-        return WheelSearchOrder.valueOf(wheelSearchOrder.getString());
-    }
-
-    public static WheelScrollDirection wheelScrollDirection() {
-        return WheelScrollDirection.valueOf(wheelScrollDirection.getString());
-    }
-
-    public static ScrollHandling scrollHandling() {
-        return ScrollHandling.valueOf(scrollHandling.getString());
-    }
-
-    public static ScrollItemScaling scrollItemScaling() {
-        return ScrollItemScaling.valueOf(scrollItemScaling.getString());
-    }
 }
