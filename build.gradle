@@ -1,12 +1,6 @@
 buildscript {
 	repositories {
-		mavenLocal()
 		mavenCentral()
-		jcenter()
-		maven {
-			name = "sonatype"
-			url = "https://oss.sonatype.org/content/repositories/snapshots/"
-		}
 		maven {
 			url = "http://files.minecraftforge.net/maven"
 		}
@@ -19,8 +13,8 @@ buildscript {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.10"
-group = "yalter.mousetweaks"
+version = "3.0"
+group = "dan.mousetweaks"
 archivesBaseName = "MouseTweaks"
 
 sourceCompatibility = targetCompatibility = '1.8'
@@ -36,6 +30,17 @@ minecraft {
 	replace '@VERSION@', project.version
 }
 
+repositories {
+    maven {
+        name = "JEI"
+        url = "http://dvs1.progwml6.com/files/maven/"
+    }
+}
+
+dependencies {
+    deobfCompile "mezz.jei:jei_1.12.2:+"
+}
+
 jar {
 	from sourceSets.api.output
 	archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}.jar"
@@ -44,9 +49,6 @@ jar {
 sourceJar {
 	from sourceSets.api.allSource
 	archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}-src.jar"
-}
-
-dependencies {
 }
 
 processResources {
