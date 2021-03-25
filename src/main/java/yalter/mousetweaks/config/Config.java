@@ -2,7 +2,7 @@ package yalter.mousetweaks.config;
 
 import yalter.mousetweaks.impl.*;
 import yalter.mousetweaks.util.Constants;
-import yalter.mousetweaks.util.Logger;
+import yalter.mousetweaks.util.MTLog;
 
 import java.io.*;
 import java.util.LinkedHashSet;
@@ -37,7 +37,7 @@ public class Config {
             configReader.close();
         } catch (FileNotFoundException ignored) {
         } catch (IOException e) {
-            Logger.Log("Failed to read the config file: " + fileName);
+            MTLog.logger.error("Failed to read the config file: " + fileName);
             e.printStackTrace();
         }
 
@@ -94,9 +94,9 @@ public class Config {
             configWriter.close();
 
             if (!existed)
-                Logger.Log("Created the config file.");
+                MTLog.logger.info("Created the config file.");
         } catch (IOException e) {
-            Logger.Log("Failed to write the config file: " + fileName);
+            MTLog.logger.error("Failed to write the config file: " + fileName);
             e.printStackTrace();
         }
     }

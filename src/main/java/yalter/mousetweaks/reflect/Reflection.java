@@ -7,7 +7,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.util.ReportedException;
 import yalter.mousetweaks.impl.Obfuscation;
 import yalter.mousetweaks.util.Constants;
-import yalter.mousetweaks.util.Logger;
+import yalter.mousetweaks.util.MTLog;
 import yalter.mousetweaks.util.ObfuscatedName;
 
 import java.lang.reflect.Field;
@@ -23,7 +23,7 @@ public class Reflection {
     public static ReflectionCache guiContainerClass;
 
     public static void reflectGuiContainer() {
-        Logger.Log("Reflecting GuiContainer...");
+        MTLog.logger.info("Reflecting GuiContainer...");
 
         guiContainerClass = new ReflectionCache();
 
@@ -31,7 +31,7 @@ public class Reflection {
             Field f = getField(GuiContainer.class, getObfuscatedName(Constants.IGNOREMOUSEUP_NAME));
             guiContainerClass.storeField(Constants.IGNOREMOUSEUP_NAME.forgeName, f);
         } catch (NoSuchFieldException e) {
-            Logger.Log("Could not retrieve GuiContainer.ignoreMouseUp.");
+            MTLog.logger.info("Could not retrieve GuiContainer.ignoreMouseUp.");
             guiContainerClass = null;
             return;
         }
@@ -40,7 +40,7 @@ public class Reflection {
             Field f = getField(GuiContainer.class, getObfuscatedName(Constants.DRAGSPLITTING_NAME));
             guiContainerClass.storeField(Constants.DRAGSPLITTING_NAME.forgeName, f);
         } catch (NoSuchFieldException e) {
-            Logger.Log("Could not retrieve GuiContainer.dragSplitting.");
+            MTLog.logger.info("Could not retrieve GuiContainer.dragSplitting.");
             guiContainerClass = null;
             return;
         }
@@ -49,7 +49,7 @@ public class Reflection {
             Field f = getField(GuiContainer.class, getObfuscatedName(Constants.DRAGSPLITTINGBUTTON_NAME));
             guiContainerClass.storeField(Constants.DRAGSPLITTINGBUTTON_NAME.forgeName, f);
         } catch (NoSuchFieldException e) {
-            Logger.Log("Could not retrieve GuiContainer.dragSplittingButton.");
+            MTLog.logger.info("Could not retrieve GuiContainer.dragSplittingButton.");
             guiContainerClass = null;
             return;
         }
@@ -61,12 +61,12 @@ public class Reflection {
                     int.class);
             guiContainerClass.storeMethod(Constants.GETSLOTATPOSITION_NAME.forgeName, m);
         } catch (NoSuchMethodException e) {
-            Logger.Log("Could not retrieve GuiContainer.getSlotAtPosition().");
+            MTLog.logger.info("Could not retrieve GuiContainer.getSlotAtPosition().");
             guiContainerClass = null;
             return;
         }
 
-        Logger.Log("Success.");
+        MTLog.logger.info("Success.");
     }
 
     public static Method getHMCMethod(GuiContainer object) {
@@ -82,7 +82,7 @@ public class Reflection {
                     int.class,
                     ClickType.class);
 
-            Logger.DebugLog("Found handleMouseClick() for " + object.getClass().getSimpleName() + ", caching.");
+            MTLog.logger.debug("Found handleMouseClick() for " + object.getClass().getSimpleName() + ", caching.");
 
             HMCCache.put(object.getClass(), method);
             return method;
@@ -107,12 +107,12 @@ public class Reflection {
                     int.class,
                     ClickType.class);
 
-            Logger.DebugLog("Found handleMouseClick() for " + object.getClass().getSimpleName() + ", caching.");
+            MTLog.logger.debug("Found handleMouseClick() for " + object.getClass().getSimpleName() + ", caching.");
 
             HMCCache.put(object.getClass(), method);
             return method;
         } catch (NoSuchMethodException e) {
-            Logger.DebugLog("Could not find handleMouseClick() for "
+            MTLog.logger.debug("Could not find handleMouseClick() for "
                     + object.getClass().getSimpleName()
                     + ", using windowClick().");
             return null;
@@ -194,6 +194,6 @@ public class Reflection {
             }
         }
 
-        Logger.Log("Detected obfuscation: " + obfuscation + ".");
+        MTLog.logger.info("Detected obfuscation: " + obfuscation + ".");
     }
 }

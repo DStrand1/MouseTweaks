@@ -14,7 +14,7 @@ import yalter.mousetweaks.impl.*;
 import yalter.mousetweaks.handlers.*;
 import yalter.mousetweaks.reflect.Reflection;
 import yalter.mousetweaks.util.Constants;
-import yalter.mousetweaks.util.Logger;
+import yalter.mousetweaks.util.MTLog;
 
 import java.io.File;
 import java.util.List;
@@ -43,7 +43,7 @@ public class Main {
     private static boolean disabled = false;
 
     public static boolean initialize(Constants.EntryPoint entryPoint) {
-        Logger.Log("A call to initialize, entry point: " + entryPoint.toString() + ".");
+        MTLog.logger.info("A call to initialize, entry point: " + entryPoint.toString() + ".");
 
         if (disabled)
             return false;
@@ -62,17 +62,17 @@ public class Main {
         forge = ((entryPoint == Constants.EntryPoint.FORGE || Reflection.doesClassExist(
                 "net.minecraftforge.client.MinecraftForgeClient")));
         if (forge) {
-            Logger.Log("Minecraft Forge is installed.");
+            MTLog.logger.info("Minecraft Forge is installed.");
         } else {
-            Logger.Log("Minecraft Forge is not installed.");
+            MTLog.logger.info("Minecraft Forge is not installed.");
         }
 
         liteLoader = ((entryPoint == Constants.EntryPoint.LITELOADER) || Reflection.doesClassExist(
                 "com.mumfrey.liteloader.core.LiteLoader"));
         if (liteLoader) {
-            Logger.Log("LiteLoader is installed.");
+            MTLog.logger.info("LiteLoader is installed.");
         } else {
-            Logger.Log("LiteLoader is not installed.");
+            MTLog.logger.info("LiteLoader is not installed.");
         }
 
         if (!findOnTickMethod(true)) {
@@ -81,7 +81,7 @@ public class Main {
             return false;
         }
 
-        Logger.Log("Mouse Tweaks has been initialized.");
+        MTLog.logger.info("Mouse Tweaks has been initialized.");
 
         return true;
     }
@@ -95,14 +95,14 @@ public class Main {
                         onTickMethod = OnTickMethod.FORGE;
 
                         if (mouseState.getClass() != MouseState.class) {
-                            Logger.DebugLog("Switching to ForgeMouseState.");
+                            MTLog.logger.debug("Switching to ForgeMouseState.");
                             mouseState = new MouseState();
                         }
 
                         ((MouseState) mouseState).simpleScrolling = (config.scrollHandling == ScrollHandling.SIMPLE);
 
                         if (print_always || onTickMethod != previous_method)
-                            Logger.Log("Using Forge for the mod operation.");
+                            MTLog.logger.info("Using Forge for the mod operation.");
                         return true;
                     }
                     break;
@@ -112,12 +112,12 @@ public class Main {
                         onTickMethod = OnTickMethod.LITELOADER;
 
                         if (mouseState.getClass() != SimpleMouseState.class) {
-                            Logger.DebugLog("Switching to SimpleMouseState.");
+                            MTLog.logger.debug("Switching to SimpleMouseState.");
                             mouseState = new SimpleMouseState();
                         }
 
                         if (print_always || onTickMethod != previous_method)
-                            Logger.Log("Using LiteLoader for the mod operation.");
+                            MTLog.logger.info("Using LiteLoader for the mod operation.");
                         return true;
                     }
                     break;
@@ -161,7 +161,7 @@ public class Main {
         if (oldGuiScreen != currentScreen) {
             oldGuiScreen = currentScreen;
 
-            Logger.DebugLog("You have just opened " + currentScreen.getClass().getSimpleName() + ".");
+            MTLog.logger.debug("You have just opened " + currentScreen.getClass().getSimpleName() + ".");
 
             handler = findHandler(currentScreen);
 
@@ -171,14 +171,14 @@ public class Main {
             if (handler == null) {
                 disableForThisContainer = true;
 
-                Logger.DebugLog("No valid handler found; MT is disabled.");
+                MTLog.logger.debug("No valid handler found; MT is disabled.");
 
                 return;
             } else {
                 disableForThisContainer = handler.isMouseTweaksDisabled();
                 disableWheelForThisContainer = handler.isWheelTweakDisabled();
 
-                Logger.DebugLog("Handler: "
+                MTLog.logger.debug("Handler: "
                         + handler.getClass().getSimpleName()
                         + "; MT is "
                         + (disableForThisContainer
@@ -235,7 +235,7 @@ public class Main {
             if (firstRightClickedSlot == selectedSlot)
                 firstRightClickedSlot = null;
 
-            Logger.DebugLog("You have selected a new slot, it's slot number is " + selectedSlot.slotNumber);
+            MTLog.logger.debug("You have selected a new slot, it's slot number is " + selectedSlot.slotNumber);
 
             // Copy stacks, otherwise when we click stuff they get updated and mess up the logic.
             ItemStack targetStack = selectedSlot.getStack().copy();

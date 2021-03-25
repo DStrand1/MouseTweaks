@@ -11,7 +11,7 @@ import yalter.mousetweaks.impl.ScrollItemScaling;
 import yalter.mousetweaks.impl.WheelScrollDirection;
 import yalter.mousetweaks.impl.WheelSearchOrder;
 import yalter.mousetweaks.util.Constants;
-import yalter.mousetweaks.util.Logger;
+import yalter.mousetweaks.util.MTLog;
 
 import java.util.*;
 
@@ -92,7 +92,7 @@ public class ConfigGui extends GuiConfig {
 
     @Override
     public void initGui() {
-        Logger.DebugLog("initGui()");
+        MTLog.logger.debug("initGui()");
 
         if (!is_open) {
             is_open = true;
@@ -117,7 +117,7 @@ public class ConfigGui extends GuiConfig {
 
     @Override
     public void onGuiClosed() {
-        Logger.DebugLog("onGuiClosed()");
+        MTLog.logger.debug("onGuiClosed()");
 
         Main.config.rmbTweak = rmbTweak.getBoolean();
         Main.config.lmbTweakWithItem = lmbTweakWithItem.getBoolean();
