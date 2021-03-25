@@ -1,16 +1,15 @@
 [
   {
     "modid": "mousetweaks",
-    "name": "Mouse Tweaks",
+    "name": "dan's Mouse Tweaks",
     "description": "A mod that enhances the inventory management by adding various additional functions to the usual mouse buttons.",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "http://www.minecraftforum.net/topic/1518185-",
     "authorList": [
-      "YaLTeR"
+      "dan, YaLTeR"
     ],
-    "credits": "Various open-source mods from where I learned.",
-    "logoFile": "mousetweaks_logo.png",
-    "updateJSON": "http://play.sourceruns.org/yalter/MouseTweaks/update.json"
+    "credits": "Thanks to YaLTeR for creating the original MouseTweaks from which this mod is forked.",
+    "logoFile": "mousetweaks_logo.png"
   }
 ]

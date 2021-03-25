@@ -14,7 +14,6 @@ import yalter.mousetweaks.util.MTLog;
 
 @Mod(   modid = Constants.MOD_ID, // If this isn't here, the mod doesn't load.
         version = Constants.VERSION, // If this isn't here, FML complains in the log.
-        updateJSON = Constants.UPDATE_URL, // If this isn't here, updating doesn't work.
         useMetadata = true, // The rest of stuff is fine being exclusively in mcmod.info.
         clientSideOnly = true)
 public class MouseTweaks {

@@ -38,10 +38,6 @@ public class MTConfig {
     @Config.Name("Scroll item scaling")
     public static ScrollItemScaling scrollItemScaling = ScrollItemScaling.PROPORTIONAL;
 
-    @Config.Comment("Enables debug logging output.")
-    @Config.Name("Debug")
-    public static boolean debug = false;
-
     /**
      * Config Enums
      */

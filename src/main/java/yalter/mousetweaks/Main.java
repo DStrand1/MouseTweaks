@@ -19,9 +19,7 @@ import java.util.List;
 
 public class Main {
 
-    private static Minecraft mc;
-
-    private static final IMouseState mouseState = new SimpleMouseState();
+    private static IMouseState mouseState = new SimpleMouseState();
     private static GuiScreen oldGuiScreen = null;
     private static Slot oldSelectedSlot = null;
     private static Slot firstRightClickedSlot = null;
@@ -39,8 +37,6 @@ public class Main {
             return true;
         initialized = true;
 
-        mc = Minecraft.getMinecraft();
-
         Reflection.reflectGuiContainer();
 
         MTLog.logger.fatal("Mouse Tweaks has been initialized.");
@@ -49,7 +45,7 @@ public class Main {
     }
 
     public static void onUpdateInGame() {
-        GuiScreen currentScreen = mc.currentScreen;
+        GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
         if (currentScreen == null) {
             // Reset stuff
             oldGuiScreen = null;
@@ -123,7 +119,7 @@ public class Main {
                         && !handler.isIgnored(firstRightClickedSlot)
                         && !handler.isCraftingOutput(firstRightClickedSlot)) {
                     ItemStack targetStack = firstRightClickedSlot.getStack();
-                    ItemStack stackOnMouse = mc.player.inventory.getItemStack();
+                    ItemStack stackOnMouse = Minecraft.getMinecraft().player.inventory.getItemStack();
 
                     if (!stackOnMouse.isEmpty()
                             && areStacksCompatible(stackOnMouse, targetStack)
@@ -151,7 +147,7 @@ public class Main {
 
             // Copy stacks, otherwise when we click stuff they get updated and mess up the logic.
             ItemStack targetStack = selectedSlot.getStack().copy();
-            ItemStack stackOnMouse = mc.player.inventory.getItemStack().copy();
+            ItemStack stackOnMouse = Minecraft.getMinecraft().player.inventory.getItemStack().copy();
 
             boolean shiftIsDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
 
@@ -215,7 +211,7 @@ public class Main {
         if (numItemsToMove == 0 || selectedSlot == null || handler.isIgnored(selectedSlot))
             return;
 
-        ItemStack stackOnMouse = mc.player.inventory.getItemStack().copy();
+        ItemStack stackOnMouse = Minecraft.getMinecraft().player.inventory.getItemStack().copy();
         ItemStack originalStack = selectedSlot.getStack().copy();
         boolean isCraftingOutput = handler.isCraftingOutput(selectedSlot);
 
@@ -329,9 +325,9 @@ public class Main {
     // This is used for the inventory position aware scroll direction. To prevent any surprises, this should have the
     // same logic for what constitutes the "other" inventory as findWheelApplicableSlot().
     private static boolean otherInventoryIsAbove(Slot selectedSlot, List<Slot> slots) {
-        boolean selectedIsInPlayerInventory = selectedSlot.inventory == mc.player.inventory;
+        boolean selectedIsInPlayerInventory = selectedSlot.inventory == Minecraft.getMinecraft().player.inventory;
         for (Slot slot : slots) {
-            if ((slot.inventory == mc.player.inventory) != selectedIsInPlayerInventory
+            if ((slot.inventory == Minecraft.getMinecraft().player.inventory) != selectedIsInPlayerInventory
                     && slot.yPos < selectedSlot.yPos) {
                 return true;
             }
@@ -376,7 +372,7 @@ public class Main {
         }
 
         ItemStack originalStack = selectedSlot.getStack();
-        boolean findInPlayerInventory = (selectedSlot.inventory != mc.player.inventory);
+        boolean findInPlayerInventory = (selectedSlot.inventory != Minecraft.getMinecraft().player.inventory);
         Slot rv = null;
 
         for (int i = startIndex; i != endIndex; i += direction) {
@@ -386,10 +382,10 @@ public class Main {
                 continue;
 
             if (findInPlayerInventory) {
-                if (slot.inventory != mc.player.inventory)
+                if (slot.inventory != Minecraft.getMinecraft().player.inventory)
                     continue;
             } else {
-                if (slot.inventory == mc.player.inventory)
+                if (slot.inventory == Minecraft.getMinecraft().player.inventory)
                     continue;
             }
 
