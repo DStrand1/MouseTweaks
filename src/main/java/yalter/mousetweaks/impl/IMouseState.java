@@ -1,7 +1,5 @@
 package yalter.mousetweaks.impl;
 
-import yalter.mousetweaks.impl.MouseButton;
-
 public interface IMouseState {
     /**
      * Returns true if the the button is held down.

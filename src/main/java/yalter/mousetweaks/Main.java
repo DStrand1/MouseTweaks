@@ -23,7 +23,7 @@ public class Main {
 
     private static Minecraft mc;
 
-    private static IMouseState mouseState = new SimpleMouseState();
+    private static final IMouseState mouseState = new SimpleMouseState();
     private static GuiScreen oldGuiScreen = null;
     private static Slot oldSelectedSlot = null;
     private static Slot firstRightClickedSlot = null;
@@ -34,12 +34,8 @@ public class Main {
     private static IGuiScreenHandler handler = null;
 
     private static boolean initialized = false;
-    private static boolean disabled = false;
 
     public static boolean initialize() {
-
-        if (disabled)
-            return false;
 
         if (initialized)
             return true;
@@ -49,7 +45,7 @@ public class Main {
 
         Reflection.reflectGuiContainer();
 
-        MTLog.logger.info("Mouse Tweaks has been initialized.");
+        MTLog.logger.fatal("Mouse Tweaks has been initialized.");
 
         return true;
     }
@@ -63,16 +59,9 @@ public class Main {
             firstRightClickedSlot = null;
             disableForThisContainer = false;
             disableWheelForThisContainer = false;
-
             handler = null;
-        } else {
-            //if (readConfig) {
-            //    readConfig = false;
-            //    config.read();
-            //}
 
-            onUpdateInGui(currentScreen);
-        }
+        } else onUpdateInGui(currentScreen);
 
         oldRMBDown = mouseState.isButtonPressed(MouseButton.RIGHT);
     }
@@ -235,9 +224,7 @@ public class Main {
         // Rather complex condition to determine when the wheel tweak can't be used.
         if (originalStack.isEmpty()
                 || (!stackOnMouse.isEmpty()
-                && (isCraftingOutput
-                ? !areStacksCompatible(originalStack, stackOnMouse)
-                : areStacksCompatible(originalStack, stackOnMouse))))
+                && (isCraftingOutput != areStacksCompatible(originalStack, stackOnMouse))))
             return;
 
         List<Slot> slots = handler.getSlots();
