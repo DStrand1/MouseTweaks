@@ -10,8 +10,6 @@ import org.lwjgl.input.Keyboard;
 import yalter.mousetweaks.api.IMTModGuiContainer;
 import yalter.mousetweaks.api.IMTModGuiContainer2;
 import yalter.mousetweaks.api.IMTModGuiContainer2Ex;
-import yalter.mousetweaks.config.MTConfig;
-import yalter.mousetweaks.config.WheelSearchOrder;
 import yalter.mousetweaks.impl.*;
 import yalter.mousetweaks.handlers.*;
 import yalter.mousetweaks.reflect.Reflection;
@@ -367,7 +365,7 @@ public class Main {
 
     private static Slot findWheelApplicableSlot(List<Slot> slots, Slot selectedSlot, boolean pushItems) {
         int startIndex, endIndex, direction;
-        if (pushItems || MTConfig.wheelSearchOrder == WheelSearchOrder.FIRST_TO_LAST) {
+        if (pushItems || MTConfig.wheelSearchOrder == MTConfig.WheelSearchOrder.FIRST_TO_LAST) {
             startIndex = 0;
             endIndex = slots.size();
             direction = 1;

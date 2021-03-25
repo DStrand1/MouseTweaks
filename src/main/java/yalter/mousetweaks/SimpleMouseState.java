@@ -1,10 +1,8 @@
 package yalter.mousetweaks;
 
 import org.lwjgl.input.Mouse;
-import yalter.mousetweaks.config.MTConfig;
 import yalter.mousetweaks.impl.IMouseState;
 import yalter.mousetweaks.impl.MouseButton;
-import yalter.mousetweaks.config.ScrollItemScaling;
 
 /**
  * Simple polling mouse state.
@@ -33,8 +31,8 @@ public class SimpleMouseState implements IMouseState {
     public int consumeScrollAmount() {
         scrollAmount += MTConfig.scrollItemScaling.scale(Mouse.getDWheel());
 
-        int amountConsumed = scrollAmount / ScrollItemScaling.scrollStep;
-        scrollAmount -= amountConsumed * ScrollItemScaling.scrollStep;
+        int amountConsumed = scrollAmount / MTConfig.ScrollItemScaling.scrollStep;
+        scrollAmount -= amountConsumed * MTConfig.ScrollItemScaling.scrollStep;
         return amountConsumed;
     }
 }
