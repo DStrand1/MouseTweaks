@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import yalter.mousetweaks.util.Constants;
-import yalter.mousetweaks.impl.OnTickMethod;
 import yalter.mousetweaks.util.MTLog;
 
 @Mod(   modid = Constants.MOD_ID, // If this isn't here, the mod doesn't load.
@@ -27,19 +26,19 @@ public class MouseTweaks {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        Main.initialize(Constants.EntryPoint.FORGE);
+        Main.initialize();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (Main.onTickMethod == OnTickMethod.FORGE && event.phase == TickEvent.Phase.START)
+        if (event.phase == TickEvent.Phase.START)
             Main.onUpdateInGame();
     }
 
     @SubscribeEvent
     public void onGuiMouseInput(GuiScreenEvent.MouseInputEvent.Post event) {
-        if (Main.onTickMethod == OnTickMethod.FORGE && event.getGui() instanceof GuiContainer) {
+        if (event.getGui() instanceof GuiContainer) {
             Main.onMouseInput();
         }
     }

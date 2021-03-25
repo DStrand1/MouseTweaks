@@ -5,9 +5,7 @@ import yalter.mousetweaks.util.Constants;
 import yalter.mousetweaks.util.MTLog;
 
 import java.io.*;
-import java.util.LinkedHashSet;
 import java.util.Properties;
-import java.util.Set;
 
 public class Config {
     protected static final Properties defaultValues = new Properties();
@@ -19,7 +17,6 @@ public class Config {
     public boolean wheelTweak = true;
     public WheelSearchOrder wheelSearchOrder = WheelSearchOrder.LAST_TO_FIRST;
     public WheelScrollDirection wheelScrollDirection = WheelScrollDirection.NORMAL;
-    public Set<OnTickMethod> onTickMethodOrder = new LinkedHashSet<OnTickMethod>(); // The order has to be preserved.
     public ScrollHandling scrollHandling = ScrollHandling.SIMPLE;
     public ScrollItemScaling scrollItemScaling = ScrollItemScaling.PROPORTIONAL;
     public static boolean debug = false;
@@ -53,7 +50,6 @@ public class Config {
                 =
                 WheelScrollDirection.fromId(parseIntOrDefault(properties.getProperty(Constants.CONFIG_WHEEL_SCROLL_DIRECTION),
                         0));
-        onTickMethodOrderFromString(properties.getProperty(Constants.CONFIG_ONTICK_METHOD_ORDER));
         scrollHandling = ScrollHandling.fromId(parseIntOrDefault(properties.getProperty(Constants.CONFIG_SCROLL_HANDLING),
                 0));
         scrollItemScaling = ScrollItemScaling.fromId(parseIntOrDefault(properties.getProperty(Constants.CONFIG_SCROLL_ITEM_SCALING), 0));
@@ -86,7 +82,6 @@ public class Config {
             writeString(configWriter,
                     Constants.CONFIG_WHEEL_SCROLL_DIRECTION,
                     String.valueOf(wheelScrollDirection.ordinal()));
-            writeString(configWriter, Constants.CONFIG_ONTICK_METHOD_ORDER, onTickMethodOrderString());
             writeString(configWriter, Constants.CONFIG_SCROLL_HANDLING, String.valueOf(scrollHandling.ordinal()));
             writeString(configWriter, Constants.CONFIG_SCROLL_ITEM_SCALING, String.valueOf(scrollItemScaling.ordinal()));
             writeBoolean(configWriter, Constants.CONFIG_DEBUG, debug);
@@ -109,40 +104,6 @@ public class Config {
         writeString(configWriter, name, value ? "1" : "0");
     }
 
-    public String onTickMethodOrderString() {
-        StringBuilder result = new StringBuilder();
-        for (OnTickMethod method : onTickMethodOrder) {
-            if (result.length() > 0)
-                result.append(", ");
-
-            switch (method) {
-                case FORGE:
-                    result.append(Constants.ONTICKMETHOD_FORGE_NAME);
-                    break;
-
-                case LITELOADER:
-                    result.append(Constants.ONTICKMETHOD_LITELOADER_NAME);
-                    break;
-            }
-        }
-        return result.toString();
-    }
-
-    public void onTickMethodOrderFromString(String string) {
-        onTickMethodOrder.clear();
-        String[] onTickMethods = string.trim().split("[\\s]*,[\\s]*");
-        for (String method : onTickMethods) {
-            if (Constants.ONTICKMETHOD_FORGE_NAME.equalsIgnoreCase(method))
-                onTickMethodOrder.add(OnTickMethod.FORGE);
-            else if (Constants.ONTICKMETHOD_LITELOADER_NAME.equalsIgnoreCase(method))
-                onTickMethodOrder.add(OnTickMethod.LITELOADER);
-        }
-
-        // Make sure we have one of each.
-        onTickMethodOrder.add(OnTickMethod.FORGE);
-        onTickMethodOrder.add(OnTickMethod.LITELOADER);
-    }
-
     static {
         defaultValues.setProperty(Constants.CONFIG_RMB_TWEAK, "1");
         defaultValues.setProperty(Constants.CONFIG_LMB_TWEAK_WITH_ITEM, "1");
@@ -150,7 +111,6 @@ public class Config {
         defaultValues.setProperty(Constants.CONFIG_WHEEL_TWEAK, "1");
         defaultValues.setProperty(Constants.CONFIG_WHEEL_SEARCH_ORDER, "1");
         defaultValues.setProperty(Constants.CONFIG_WHEEL_SCROLL_DIRECTION, "0");
-        defaultValues.setProperty(Constants.CONFIG_ONTICK_METHOD_ORDER, "Forge, LiteLoader");
         defaultValues.setProperty(Constants.CONFIG_SCROLL_HANDLING, "0");
         defaultValues.setProperty(Constants.CONFIG_SCROLL_ITEM_SCALING, "0");
         defaultValues.setProperty(Constants.CONFIG_DEBUG, "0");

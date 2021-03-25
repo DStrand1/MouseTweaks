@@ -9,5 +9,4 @@ public class MTLog {
     public static void init(Logger modLogger) {
         logger = modLogger;
     }
-
 }

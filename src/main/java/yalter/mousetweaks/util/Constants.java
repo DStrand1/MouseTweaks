@@ -12,7 +12,6 @@ public class Constants {
     public static final String CONFIG_WHEEL_TWEAK = "WheelTweak";
     public static final String CONFIG_WHEEL_SEARCH_ORDER = "WheelSearchOrder";
     public static final String CONFIG_WHEEL_SCROLL_DIRECTION = "WheelScrollDirection";
-    public static final String CONFIG_ONTICK_METHOD_ORDER = "OnTickMethodOrder";
     public static final String CONFIG_SCROLL_HANDLING = "ScrollHandling";
     public static final String CONFIG_DEBUG = "Debug";
     public static final String CONFIG_SCROLL_ITEM_SCALING = "ScrollItemScaling";
@@ -29,11 +28,4 @@ public class Constants {
     public static final ObfuscatedName HANDLEMOUSECLICK_NAME = new ObfuscatedName("handleMouseClick",
             "func_184098_a",
             "a");
-
-    public static final String ONTICKMETHOD_FORGE_NAME = "Forge";
-    public static final String ONTICKMETHOD_LITELOADER_NAME = "LiteLoader";
-
-    public enum EntryPoint {
-        UNDEFINED, FORGE, LITELOADER
-    }
 }

@@ -20,11 +20,8 @@ import java.io.File;
 import java.util.List;
 
 public class Main {
-    private static boolean liteLoader = false;
-    private static boolean forge = false;
 
     public static Config config;
-    public static OnTickMethod onTickMethod;
 
     private static Minecraft mc;
 
@@ -42,8 +39,7 @@ public class Main {
     private static boolean initialized = false;
     private static boolean disabled = false;
 
-    public static boolean initialize(Constants.EntryPoint entryPoint) {
-        MTLog.logger.info("A call to initialize, entry point: " + entryPoint.toString() + ".");
+    public static boolean initialize() {
 
         if (disabled)
             return false;
@@ -59,72 +55,9 @@ public class Main {
 
         Reflection.reflectGuiContainer();
 
-        forge = ((entryPoint == Constants.EntryPoint.FORGE || Reflection.doesClassExist(
-                "net.minecraftforge.client.MinecraftForgeClient")));
-        if (forge) {
-            MTLog.logger.info("Minecraft Forge is installed.");
-        } else {
-            MTLog.logger.info("Minecraft Forge is not installed.");
-        }
-
-        liteLoader = ((entryPoint == Constants.EntryPoint.LITELOADER) || Reflection.doesClassExist(
-                "com.mumfrey.liteloader.core.LiteLoader"));
-        if (liteLoader) {
-            MTLog.logger.info("LiteLoader is installed.");
-        } else {
-            MTLog.logger.info("LiteLoader is not installed.");
-        }
-
-        if (!findOnTickMethod(true)) {
-            // No OnTick methods work.
-            disabled = true;
-            return false;
-        }
-
         MTLog.logger.info("Mouse Tweaks has been initialized.");
 
         return true;
-    }
-
-    public static boolean findOnTickMethod(boolean print_always) {
-        OnTickMethod previous_method = onTickMethod;
-        for (OnTickMethod method : config.onTickMethodOrder) {
-            switch (method) {
-                case FORGE:
-                    if (forge) {
-                        onTickMethod = OnTickMethod.FORGE;
-
-                        if (mouseState.getClass() != MouseState.class) {
-                            MTLog.logger.debug("Switching to ForgeMouseState.");
-                            mouseState = new MouseState();
-                        }
-
-                        ((MouseState) mouseState).simpleScrolling = (config.scrollHandling == ScrollHandling.SIMPLE);
-
-                        if (print_always || onTickMethod != previous_method)
-                            MTLog.logger.info("Using Forge for the mod operation.");
-                        return true;
-                    }
-                    break;
-
-                case LITELOADER:
-                    if (liteLoader) {
-                        onTickMethod = OnTickMethod.LITELOADER;
-
-                        if (mouseState.getClass() != SimpleMouseState.class) {
-                            MTLog.logger.debug("Switching to SimpleMouseState.");
-                            mouseState = new SimpleMouseState();
-                        }
-
-                        if (print_always || onTickMethod != previous_method)
-                            MTLog.logger.info("Using LiteLoader for the mod operation.");
-                        return true;
-                    }
-                    break;
-            }
-        }
-
-        return false;
     }
 
     public static void onUpdateInGame() {
@@ -143,7 +76,6 @@ public class Main {
             if (readConfig) {
                 readConfig = false;
                 config.read();
-                findOnTickMethod(false);
             }
 
             onUpdateInGui(currentScreen);

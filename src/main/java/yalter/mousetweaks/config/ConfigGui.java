@@ -67,7 +67,10 @@ public class ConfigGui extends GuiConfig {
         wheelTweak.setComment("Scroll over items to move them between inventories.");
         wheelSearchOrder.setComment("How to pick the source slot when pulling items via scrolling.");
         wheelScrollDirection.setComment("Inventory position aware means scroll up to push items from the bottom inventory and pull into the top inventory, and vice versa.");
+
+        // TODO Look into this
         onTickMethodOrder.setComment("This shouldn't really affect anything, but non-smooth scrolling works only with the Forge OnTick method.");
+
         scrollHandling.setComment("When set to smooth scrolling, minor issues may be experienced such as scrolling \"through\" JEI or other mods. Non-smooth scrolling works only with the Forge OnTick method.");
         scrollItemScaling.setComment("This determines how many items are moved when you scroll. On some setups (notably macOS), scrolling the wheel with different speeds results in different distances scrolled per wheel \"bump\". To make those setups play nicely with Mouse Tweaks, set this option to \"Always exactly one item\".");
         debug.setComment("Enables debug logging output.");
@@ -106,7 +109,6 @@ public class ConfigGui extends GuiConfig {
                     ? "First to last"
                     : "Last to first");
             wheelScrollDirection.set(wheelScrollDirection.getValidValues()[Main.config.wheelScrollDirection.ordinal()]);
-            onTickMethodOrder.set(Main.config.onTickMethodOrderString());
             scrollHandling.set(scrollHandling.getValidValues()[Main.config.scrollHandling.ordinal()]);
             scrollItemScaling.set(scrollItemScaling.getValidValues()[Main.config.scrollItemScaling.ordinal()]);
             debug.set(Config.debug);
@@ -128,14 +130,12 @@ public class ConfigGui extends GuiConfig {
                 : WheelSearchOrder.LAST_TO_FIRST;
         Main.config.wheelScrollDirection = WheelScrollDirection.fromId(Arrays.asList(wheelScrollDirection.getValidValues())
                 .indexOf(wheelScrollDirection.getString()));
-        Main.config.onTickMethodOrderFromString(onTickMethodOrder.getString());
         Main.config.scrollHandling = ScrollHandling.fromId(Arrays.asList(scrollHandling.getValidValues())
                 .indexOf(scrollHandling.getString()));
         Main.config.scrollItemScaling = ScrollItemScaling.fromId(Arrays.asList(scrollItemScaling.getValidValues())
                 .indexOf(scrollItemScaling.getString()));
         Config.debug = debug.getBoolean();
         Main.config.save();
-        Main.findOnTickMethod(true);
 
         is_open = false;
         super.onGuiClosed();
