@@ -15,7 +15,7 @@ import yalter.mousetweaks.util.MTLog;
 
 import java.util.*;
 
-public class ConfigGui extends GuiConfig {
+public class ConfigGui /*extends GuiConfig*/ {/*
     private static Property rmbTweak = booleanProperty("RMB tweak", true);
     private static Property lmbTweakWithItem = booleanProperty("LMB tweak with item", true);
     private static Property lmbTweakWithoutItem = booleanProperty("LMB tweak without item", true);
@@ -47,12 +47,12 @@ public class ConfigGui extends GuiConfig {
 
     private static Property booleanProperty(String name, boolean defaultValue) {
         return new Property(name, Boolean.toString(defaultValue), Property.Type.BOOLEAN);
-    }
+    }*/
 
     /**
      * creates a new string property with the given valid values, taking the first valid value as default
      */
-    private static Property choiceProperty(String name, String... values) {
+    /*private static Property choiceProperty(String name, String... values) {
         return new Property(name, values[0], Property.Type.STRING, values);
     }
 
@@ -111,7 +111,7 @@ public class ConfigGui extends GuiConfig {
             wheelScrollDirection.set(wheelScrollDirection.getValidValues()[Main.config.wheelScrollDirection.ordinal()]);
             scrollHandling.set(scrollHandling.getValidValues()[Main.config.scrollHandling.ordinal()]);
             scrollItemScaling.set(scrollItemScaling.getValidValues()[Main.config.scrollItemScaling.ordinal()]);
-            debug.set(Config.debug);
+            debug.set(MTConfig.debug);
         }
 
         super.initGui();
@@ -134,10 +134,10 @@ public class ConfigGui extends GuiConfig {
                 .indexOf(scrollHandling.getString()));
         Main.config.scrollItemScaling = ScrollItemScaling.fromId(Arrays.asList(scrollItemScaling.getValidValues())
                 .indexOf(scrollItemScaling.getString()));
-        Config.debug = debug.getBoolean();
+        MTConfig.debug = debug.getBoolean();
         Main.config.save();
 
         is_open = false;
         super.onGuiClosed();
-    }
+    }*/
 }

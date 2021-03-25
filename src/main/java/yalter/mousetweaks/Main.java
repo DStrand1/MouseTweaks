@@ -9,19 +9,15 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;
 import yalter.mousetweaks.api.IMTModGuiContainer2;
 import yalter.mousetweaks.api.IMTModGuiContainer2Ex;
-import yalter.mousetweaks.config.Config;
+import yalter.mousetweaks.config.MTConfig;
 import yalter.mousetweaks.impl.*;
 import yalter.mousetweaks.handlers.*;
 import yalter.mousetweaks.reflect.Reflection;
-import yalter.mousetweaks.util.Constants;
 import yalter.mousetweaks.util.MTLog;
 
-import java.io.File;
 import java.util.List;
 
 public class Main {
-
-    public static Config config;
 
     private static Minecraft mc;
 
@@ -50,9 +46,6 @@ public class Main {
 
         mc = Minecraft.getMinecraft();
 
-        config = new Config(mc.gameDir + File.separator + "config" + File.separator + "MouseTweaks.cfg");
-        config.read();
-
         Reflection.reflectGuiContainer();
 
         MTLog.logger.info("Mouse Tweaks has been initialized.");
@@ -73,10 +66,10 @@ public class Main {
 
             handler = null;
         } else {
-            if (readConfig) {
-                readConfig = false;
-                config.read();
-            }
+            //if (readConfig) {
+            //    readConfig = false;
+            //    config.read();
+            //}
 
             onUpdateInGui(currentScreen);
         }
@@ -123,7 +116,7 @@ public class Main {
         }
 
         // If everything is disabled there's nothing to do.
-        if (!config.rmbTweak && !config.lmbTweakWithItem && !config.lmbTweakWithoutItem && !config.wheelTweak)
+        if (!MTConfig.rmbTweak && !MTConfig.lmbTweakWithItem && !MTConfig.lmbTweakWithoutItem && !MTConfig.wheelTweak)
             return;
 
         if (disableForThisContainer)
@@ -135,7 +128,7 @@ public class Main {
             if (!oldRMBDown)
                 firstRightClickedSlot = selectedSlot;
 
-            if (config.rmbTweak && handler.disableRMBDraggingFunctionality()) {
+            if (MTConfig.rmbTweak && handler.disableRMBDraggingFunctionality()) {
                 // Check some conditions to see if we really need to click the first slot.
                 if (firstRightClickedSlot != null
                         // This condition is here to prevent double-clicking.
@@ -177,7 +170,7 @@ public class Main {
 
             if (mouseState.isButtonPressed(MouseButton.RIGHT)) {
                 // Right mouse button
-                if (config.rmbTweak) {
+                if (MTConfig.rmbTweak) {
                     if (!handler.isIgnored(selectedSlot)
                             && !handler.isCraftingOutput(selectedSlot)
                             && !stackOnMouse.isEmpty()
@@ -189,7 +182,7 @@ public class Main {
             } else if (mouseState.isButtonPressed(MouseButton.LEFT)) {
                 // Left mouse button
                 if (!stackOnMouse.isEmpty()) {
-                    if (config.lmbTweakWithItem) {
+                    if (MTConfig.lmbTweakWithItem) {
                         if (!handler.isIgnored(selectedSlot)
                                 && !targetStack.isEmpty()
                                 && areStacksCompatible(stackOnMouse, targetStack)) {
@@ -214,7 +207,7 @@ public class Main {
                             }
                         }
                     }
-                } else if (config.lmbTweakWithoutItem) {
+                } else if (MTConfig.lmbTweakWithoutItem) {
                     if (!targetStack.isEmpty() && shiftIsDown && !handler.isIgnored(selectedSlot)) {
                         handler.clickSlot(selectedSlot, MouseButton.LEFT, true);
                     }
@@ -226,7 +219,7 @@ public class Main {
     }
 
     private static void handleWheel(Slot selectedSlot) {
-        if (!config.wheelTweak || disableWheelForThisContainer)
+        if (!MTConfig.wheelTweak || disableWheelForThisContainer)
             return;
         int wheel = mouseState.consumeScrollAmount();
 
@@ -250,10 +243,10 @@ public class Main {
         List<Slot> slots = handler.getSlots();
 
         boolean pushItems = wheel < 0;
-        if (config.wheelScrollDirection.isPositionAware() && otherInventoryIsAbove(selectedSlot, slots)) {
+        if (MTConfig.wheelScrollDirection().isPositionAware() && otherInventoryIsAbove(selectedSlot, slots)) {
             pushItems = !pushItems;
         }
-        if (config.wheelScrollDirection.isInverted()) {
+        if (MTConfig.wheelScrollDirection().isInverted()) {
             pushItems = !pushItems;
         }
 
@@ -385,7 +378,7 @@ public class Main {
 
     private static Slot findWheelApplicableSlot(List<Slot> slots, Slot selectedSlot, boolean pushItems) {
         int startIndex, endIndex, direction;
-        if (pushItems || config.wheelSearchOrder == WheelSearchOrder.FIRST_TO_LAST) {
+        if (pushItems || MTConfig.wheelSearchOrder() == WheelSearchOrder.FIRST_TO_LAST) {
             startIndex = 0;
             endIndex = slots.size();
             direction = 1;

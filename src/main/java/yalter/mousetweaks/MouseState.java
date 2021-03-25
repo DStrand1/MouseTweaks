@@ -2,6 +2,7 @@ package yalter.mousetweaks;
 
 import com.google.common.base.MoreObjects;
 import org.lwjgl.input.Mouse;
+import yalter.mousetweaks.config.MTConfig;
 import yalter.mousetweaks.impl.IMouseState;
 import yalter.mousetweaks.impl.MouseButton;
 import yalter.mousetweaks.impl.ScrollItemScaling;
@@ -45,7 +46,7 @@ public class MouseState implements IMouseState {
             }
         } else {
             if (!simpleScrolling) {
-                scrollAmount += Main.config.scrollItemScaling.scale(Mouse.getEventDWheel());
+                scrollAmount += MTConfig.scrollItemScaling().scale(Mouse.getEventDWheel());
             }
         }
         // clear any pressed buttons in case we missed them being released
@@ -87,7 +88,7 @@ public class MouseState implements IMouseState {
     @Override
     public int consumeScrollAmount() {
         if (simpleScrolling) {
-            scrollAmount += Main.config.scrollItemScaling.scale(Mouse.getDWheel());
+            scrollAmount += MTConfig.scrollItemScaling().scale(Mouse.getDWheel());
         }
 
         int amountConsumed = scrollAmount / ScrollItemScaling.scrollStep;
