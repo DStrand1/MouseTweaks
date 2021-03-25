@@ -7,6 +7,7 @@ import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;
+import yalter.mousetweaks.api.IMTModGuiContainer;
 import yalter.mousetweaks.api.IMTModGuiContainer2;
 import yalter.mousetweaks.api.IMTModGuiContainer2Ex;
 import yalter.mousetweaks.config.MTConfig;
@@ -361,6 +362,8 @@ public class Main {
             return new IMTModGuiContainer2ExHandler((IMTModGuiContainer2Ex) currentScreen);
         } else if (currentScreen instanceof IMTModGuiContainer2) {
             return new IMTModGuiContainer2Handler((IMTModGuiContainer2) currentScreen);
+        } else if (currentScreen instanceof IMTModGuiContainer) {
+            return new IMTModGuiContainerHandler((IMTModGuiContainer) currentScreen);
         } else if (currentScreen instanceof GuiContainerCreative) {
             return new GuiContainerCreativeHandler((GuiContainerCreative) currentScreen);
         } else if (currentScreen instanceof GuiContainer) {
