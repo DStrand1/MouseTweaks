@@ -432,8 +432,6 @@ public class Main {
 			return new IMTModGuiContainer2ExHandler((IMTModGuiContainer2Ex) currentScreen);
 		} else if (currentScreen instanceof IMTModGuiContainer2) {
 			return new IMTModGuiContainer2Handler((IMTModGuiContainer2) currentScreen);
-		} else if (currentScreen instanceof yalter.mousetweaks.api.IMTModGuiContainer) {
-			return new IMTModGuiContainerHandler((yalter.mousetweaks.api.IMTModGuiContainer) currentScreen);
 		} else if (currentScreen instanceof GuiContainerCreative) {
 			return new GuiContainerCreativeHandler((GuiContainerCreative) currentScreen);
 		} else if (currentScreen instanceof GuiContainer) {
