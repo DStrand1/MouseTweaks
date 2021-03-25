@@ -1,4 +1,6 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.impl;
+
+import yalter.mousetweaks.impl.MouseButton;
 
 public interface IMouseState {
     /**

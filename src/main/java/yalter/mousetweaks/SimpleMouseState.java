@@ -1,6 +1,9 @@
 package yalter.mousetweaks;
 
 import org.lwjgl.input.Mouse;
+import yalter.mousetweaks.impl.IMouseState;
+import yalter.mousetweaks.impl.MouseButton;
+import yalter.mousetweaks.impl.ScrollItemScaling;
 
 /**
  * Simple polling mouse state.

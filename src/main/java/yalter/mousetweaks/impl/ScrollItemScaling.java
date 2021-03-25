@@ -1,4 +1,4 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.impl;
 
 public enum ScrollItemScaling {
     PROPORTIONAL(0), ALWAYS_ONE(1);

@@ -1,4 +1,4 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.impl;
 
 public enum Obfuscation {
     MCP, FORGE, VANILLA

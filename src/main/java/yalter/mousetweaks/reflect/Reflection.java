@@ -1,10 +1,14 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.reflect;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ReportedException;
+import yalter.mousetweaks.impl.Obfuscation;
+import yalter.mousetweaks.util.Constants;
+import yalter.mousetweaks.util.Logger;
+import yalter.mousetweaks.util.ObfuscatedName;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -18,7 +22,7 @@ public class Reflection {
 
     public static ReflectionCache guiContainerClass;
 
-    static void reflectGuiContainer() {
+    public static void reflectGuiContainer() {
         Logger.Log("Reflecting GuiContainer...");
 
         guiContainerClass = new ReflectionCache();
@@ -115,7 +119,7 @@ public class Reflection {
         }
     }
 
-    static boolean doesClassExist(String name) {
+    public static boolean doesClassExist(String name) {
         try {
             Class.forName(name);
             return true;

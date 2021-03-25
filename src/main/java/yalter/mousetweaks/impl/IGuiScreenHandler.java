@@ -1,6 +1,7 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.impl;
 
 import net.minecraft.inventory.Slot;
+import yalter.mousetweaks.impl.MouseButton;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.impl;
 
 public enum ScrollHandling {
     SIMPLE(0), EVENT_BASED(1);

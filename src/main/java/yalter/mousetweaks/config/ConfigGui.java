@@ -1,4 +1,4 @@
-package yalter.mousetweaks.forge;
+package yalter.mousetweaks.config;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
@@ -6,6 +6,12 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import yalter.mousetweaks.*;
+import yalter.mousetweaks.impl.ScrollHandling;
+import yalter.mousetweaks.impl.ScrollItemScaling;
+import yalter.mousetweaks.impl.WheelScrollDirection;
+import yalter.mousetweaks.impl.WheelSearchOrder;
+import yalter.mousetweaks.util.Constants;
+import yalter.mousetweaks.util.Logger;
 
 import java.util.*;
 

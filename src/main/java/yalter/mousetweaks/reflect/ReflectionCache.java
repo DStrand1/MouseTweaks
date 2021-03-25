@@ -1,4 +1,4 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.reflect;
 
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;

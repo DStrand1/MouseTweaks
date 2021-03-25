@@ -1,4 +1,8 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.config;
+
+import yalter.mousetweaks.impl.*;
+import yalter.mousetweaks.util.Constants;
+import yalter.mousetweaks.util.Logger;
 
 import java.io.*;
 import java.util.LinkedHashSet;

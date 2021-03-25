@@ -1,4 +1,6 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.util;
+
+import yalter.mousetweaks.impl.Obfuscation;
 
 public class ObfuscatedName {
     public final String mcpName;
@@ -11,7 +13,7 @@ public class ObfuscatedName {
         this.vanillaName = vanillaName;
     }
 
-    String get(Obfuscation obf) {
+    public String get(Obfuscation obf) {
         switch (obf) {
             case MCP:
                 return mcpName;

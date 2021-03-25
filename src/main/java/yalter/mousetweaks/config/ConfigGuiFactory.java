@@ -1,4 +1,4 @@
-package yalter.mousetweaks.forge;
+package yalter.mousetweaks.config;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

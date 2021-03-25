@@ -6,10 +6,10 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.inventory.*;
 import net.minecraft.util.ReportedException;
 import org.lwjgl.input.Mouse;
-import yalter.mousetweaks.Constants;
-import yalter.mousetweaks.IGuiScreenHandler;
-import yalter.mousetweaks.MouseButton;
-import yalter.mousetweaks.Reflection;
+import yalter.mousetweaks.util.Constants;
+import yalter.mousetweaks.impl.IGuiScreenHandler;
+import yalter.mousetweaks.impl.MouseButton;
+import yalter.mousetweaks.reflect.Reflection;
 import yalter.mousetweaks.api.MouseTweaksDisableWheelTweak;
 import yalter.mousetweaks.api.MouseTweaksIgnore;
 

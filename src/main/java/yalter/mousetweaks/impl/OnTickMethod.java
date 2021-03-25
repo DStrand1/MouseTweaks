@@ -1,4 +1,4 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.impl;
 
 public enum OnTickMethod {
     FORGE, LITELOADER

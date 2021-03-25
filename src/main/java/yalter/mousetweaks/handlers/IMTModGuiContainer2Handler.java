@@ -5,9 +5,9 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ReportedException;
-import yalter.mousetweaks.IGuiScreenHandler;
-import yalter.mousetweaks.MouseButton;
-import yalter.mousetweaks.Reflection;
+import yalter.mousetweaks.impl.IGuiScreenHandler;
+import yalter.mousetweaks.impl.MouseButton;
+import yalter.mousetweaks.reflect.Reflection;
 import yalter.mousetweaks.api.IMTModGuiContainer2;
 
 import java.lang.reflect.InvocationTargetException;

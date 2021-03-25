@@ -1,8 +1,10 @@
-package yalter.mousetweaks.forge;
+package yalter.mousetweaks;
 
 import com.google.common.base.MoreObjects;
 import org.lwjgl.input.Mouse;
-import yalter.mousetweaks.*;
+import yalter.mousetweaks.impl.IMouseState;
+import yalter.mousetweaks.impl.MouseButton;
+import yalter.mousetweaks.impl.ScrollItemScaling;
 
 import java.util.EnumSet;
 
@@ -14,7 +16,7 @@ import java.util.EnumSet;
  * the GUI it won't be delivered to Mouse Tweaks), but due to Forge only processing events every game tick (rather than
  * every render tick) suffers from the mouse scrolling not being very smooth.
  */
-public class ForgeMouseState implements IMouseState {
+public class MouseState implements IMouseState {
     private final EnumSet<MouseButton> pressedButtons = EnumSet.noneOf(MouseButton.class);
     private int scrollAmount = 0;
 
@@ -25,7 +27,7 @@ public class ForgeMouseState implements IMouseState {
      */
     public boolean simpleScrolling = false;
 
-    public ForgeMouseState() {
+    public MouseState() {
 
     }
 

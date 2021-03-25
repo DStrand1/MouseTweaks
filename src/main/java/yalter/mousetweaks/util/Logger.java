@@ -1,4 +1,6 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.util;
+
+import yalter.mousetweaks.config.Config;
 
 public class Logger {
 

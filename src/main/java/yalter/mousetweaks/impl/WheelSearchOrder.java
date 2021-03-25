@@ -1,4 +1,4 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.impl;
 
 public enum WheelSearchOrder {
     FIRST_TO_LAST(0), LAST_TO_FIRST(1);

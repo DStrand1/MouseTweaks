@@ -1,8 +1,8 @@
 package yalter.mousetweaks.handlers;
 
 import net.minecraft.inventory.Slot;
-import yalter.mousetweaks.IGuiScreenHandler;
-import yalter.mousetweaks.MouseButton;
+import yalter.mousetweaks.impl.IGuiScreenHandler;
+import yalter.mousetweaks.impl.MouseButton;
 
 import java.util.ArrayList;
 import java.util.List;

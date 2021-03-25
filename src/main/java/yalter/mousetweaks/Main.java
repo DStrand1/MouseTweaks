@@ -9,8 +9,12 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;
 import yalter.mousetweaks.api.IMTModGuiContainer2;
 import yalter.mousetweaks.api.IMTModGuiContainer2Ex;
-import yalter.mousetweaks.forge.ForgeMouseState;
+import yalter.mousetweaks.config.Config;
+import yalter.mousetweaks.impl.*;
 import yalter.mousetweaks.handlers.*;
+import yalter.mousetweaks.reflect.Reflection;
+import yalter.mousetweaks.util.Constants;
+import yalter.mousetweaks.util.Logger;
 
 import java.io.File;
 import java.util.List;
@@ -90,12 +94,12 @@ public class Main {
                     if (forge) {
                         onTickMethod = OnTickMethod.FORGE;
 
-                        if (mouseState.getClass() != ForgeMouseState.class) {
+                        if (mouseState.getClass() != MouseState.class) {
                             Logger.DebugLog("Switching to ForgeMouseState.");
-                            mouseState = new ForgeMouseState();
+                            mouseState = new MouseState();
                         }
 
-                        ((ForgeMouseState) mouseState).simpleScrolling = (config.scrollHandling == ScrollHandling.SIMPLE);
+                        ((MouseState) mouseState).simpleScrolling = (config.scrollHandling == ScrollHandling.SIMPLE);
 
                         if (print_always || onTickMethod != previous_method)
                             Logger.Log("Using Forge for the mod operation.");

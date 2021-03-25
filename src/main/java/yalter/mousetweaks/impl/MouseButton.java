@@ -1,4 +1,4 @@
-package yalter.mousetweaks;
+package yalter.mousetweaks.impl;
 
 public enum MouseButton {
     LEFT(0), RIGHT(1);
