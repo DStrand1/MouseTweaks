@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import yalter.mousetweaks.util.Constants;
 import yalter.mousetweaks.util.MTLog;
 
@@ -25,6 +26,10 @@ public class MouseTweaks {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        if (event.getSide() != Side.CLIENT) {
+            MTLog.logger.info("MouseTweaks disabled because we are not running on the client");
+            return;
+        }
         Main.initialize();
         MinecraftForge.EVENT_BUS.register(this);
     }
