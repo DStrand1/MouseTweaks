@@ -3,6 +3,8 @@ package yalter.mousetweaks.handlers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnaceFuel;
+import net.minecraft.item.ItemStack;
 import yalter.mousetweaks.impl.IGuiScreenHandler;
 import yalter.mousetweaks.impl.MouseButton;
 import yalter.mousetweaks.api.IMTModGuiContainer2Ex;
@@ -58,5 +60,10 @@ public class IMTModGuiContainer2ExHandler implements IGuiScreenHandler {
     @Override
     public boolean isIgnored(Slot slot) {
         return modGuiContainer.MT_isIgnored(slot);
+    }
+
+    @Override
+    public int isSlotPrioritized(Slot slot, ItemStack stack) {
+        return modGuiContainer.MT_scrollIsItemPrioritizedForSlot(slot, stack);
     }
 }

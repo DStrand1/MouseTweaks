@@ -2,6 +2,7 @@ package yalter.mousetweaks.api;
 
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public interface IMTModGuiContainer2Ex {
      * slots and the Destroy Item slot in the vanilla creative inventory.
      *
      * @param slot the slot to check
-     * @return Tru if slot should be ignored by Mouse Tweaks.
+     * @return True if slot should be ignored by Mouse Tweaks.
      */
     boolean MT_isIgnored(Slot slot);
 
@@ -102,4 +103,28 @@ public interface IMTModGuiContainer2Ex {
      *                    and QUICK_MOVE (shift click)
      */
     void MT_clickSlot(Slot slot, int mouseButton, ClickType clickType);
+
+    /**
+     * Custom behavior for the scroll-wheel functionality to prioritize an ItemStack to being passed to a
+     * specific slot. This is used by MouseTweaks to prioritize fuels in the Fuel Slot in the Furnace, for example.
+     * <p>
+     * An example of how this could be implemented for the Furnace:
+     * <pre>
+     *     if (stack.getItem().getItemBurnTime(stack) != 0) {
+     *             if (slot instanceof SlotFurnaceFuel) {
+     *                 return 1;
+     *             }
+     *             return 0;
+     *         }
+     *         return -1;
+     * </pre>
+     * <br>
+     *
+     * @param slot  The Slot to test
+     * @param stack The ItemStack attempting to be passed to the slot
+     * @return 1 if high-priority,
+     *         0 if low priority,
+     *        -1 if priority is to be ignored
+     */
+    int MT_scrollIsItemPrioritizedForSlot(Slot slot, ItemStack stack);
 }

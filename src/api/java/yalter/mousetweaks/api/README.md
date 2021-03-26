@@ -7,7 +7,8 @@ by the mod as an example), take a look at this interface. Implement it on your G
 
 ## IMTModGuiContainer2Ex
 
-Extended version of the previous interface, adds an ability to override the slot clicking function.
+An extended version of the previous interface, adds an ability to override the slot clicking function, as well as an
+ability to set priority for the mouse scroll action to put certain items in slots. For example, prioritizing coal into the Fuel slot of a Furnace.
 
 ## @MouseTweaksIgnore
 

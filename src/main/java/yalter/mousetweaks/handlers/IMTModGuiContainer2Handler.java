@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ReportedException;
 import yalter.mousetweaks.impl.IGuiScreenHandler;
 import yalter.mousetweaks.impl.MouseButton;
@@ -86,5 +87,10 @@ public class IMTModGuiContainer2Handler implements IGuiScreenHandler {
     @Override
     public boolean isIgnored(Slot slot) {
         return modGuiContainer.MT_isIgnored(slot);
+    }
+
+    @Override
+    public int isSlotPrioritized(Slot slot, ItemStack stack) {
+        return -1;
     }
 }

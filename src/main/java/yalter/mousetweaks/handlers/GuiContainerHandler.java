@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.inventory.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ReportedException;
 import org.lwjgl.input.Mouse;
 import yalter.mousetweaks.util.Constants;
@@ -123,5 +124,15 @@ public class GuiContainerHandler implements IGuiScreenHandler {
     @Override
     public boolean isIgnored(Slot slot) {
         return false;
+    }
+
+    @Override
+    public int isSlotPrioritized(Slot slot, ItemStack stack) {
+        if (stack.getItem().getItemBurnTime(stack) != 0) {
+            if (slot instanceof SlotFurnaceFuel)
+                return 1;
+            return 0;
+        }
+        return -1;
     }
 }

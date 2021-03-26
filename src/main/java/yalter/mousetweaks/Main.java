@@ -374,6 +374,7 @@ public class Main {
         ItemStack originalStack = selectedSlot.getStack();
         boolean findInPlayerInventory = (selectedSlot.inventory != Minecraft.getMinecraft().player.inventory);
         Slot rv = null;
+        Slot firstAllowedEncounter = null;
 
         for (int i = startIndex; i != endIndex; i += direction) {
             Slot slot = slots.get(i);
@@ -390,21 +391,35 @@ public class Main {
             }
 
             ItemStack stack = slot.getStack();
+            int priority = handler.isSlotPrioritized(slot, originalStack);
 
             if (stack.isEmpty()) {
                 if (rv == null && pushItems && slot.isItemValid(originalStack) && !handler.isCraftingOutput(slot)) {
-                    rv = slot;
+                    switch (priority) {
+                        case -1:
+                        case  1:
+                            rv = slot; break;
+                        case  0:
+                            if (firstAllowedEncounter == null) firstAllowedEncounter = slot; break;
+                    }
                 }
             } else if (areStacksCompatible(originalStack, stack)) {
                 if (pushItems) {
                     if (!handler.isCraftingOutput(slot) && stack.getCount() < stack.getMaxStackSize())
-                        return slot;
+                        switch (priority) {
+                            case -1:
+                            case  1:
+                                return slot;
+                            case  0:
+                                firstAllowedEncounter = slot;
+                        }
                 } else {
                     return slot;
                 }
             }
         }
-
+        if (rv == null && firstAllowedEncounter != null)
+            return firstAllowedEncounter;
         return rv;
     }
 }

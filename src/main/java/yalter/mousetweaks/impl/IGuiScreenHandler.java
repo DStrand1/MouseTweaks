@@ -1,6 +1,7 @@
 package yalter.mousetweaks.impl;
 
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import yalter.mousetweaks.impl.MouseButton;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface IGuiScreenHandler {
     boolean isCraftingOutput(Slot slot);
 
     boolean isIgnored(Slot slot);
+
+    int isSlotPrioritized(Slot slot, ItemStack stack);
 }

@@ -151,8 +151,8 @@ public class MTConfig {
 
     public enum WheelSearchOrder {
 
-        FIRST_TO_LAST("Last to first"),
-        LAST_TO_FIRST("First to last");
+        FIRST_TO_LAST("First to last"),
+        LAST_TO_FIRST("Last to first");
 
         private final String id;
 
