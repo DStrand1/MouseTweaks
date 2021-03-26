@@ -9,14 +9,9 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class ReflectionCache {
-    private HashMap<String, Class> classes = new HashMap<String, Class>();
-    private HashMap<String, Method> methods = new HashMap<String, Method>();
-    private HashMap<String, Field> fields = new HashMap<String, Field>();
 
-    public boolean isInstance(Object obj, String name) {
-        Class clazz = classes.get(name);
-        return clazz.isInstance(obj);
-    }
+    private final HashMap<String, Method> methods = new HashMap<>();
+    private final HashMap<String, Field> fields = new HashMap<>();
 
     public Object invokeMethod(Object obj, String name, Object... args) throws InvocationTargetException {
         Method method = methods.get(name);
@@ -49,10 +44,6 @@ public class ReflectionCache {
             CrashReport crashreport = CrashReport.makeCrashReport(e, "Setting field value in MouseTweaks' reflection");
             throw new ReportedException(crashreport);
         }
-    }
-
-    void storeClass(String name, Class clazz) {
-        classes.put(name, clazz);
     }
 
     void storeMethod(String name, Method method) {

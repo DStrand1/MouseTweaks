@@ -18,7 +18,7 @@ public class Reflection {
     private static Obfuscation obfuscation;
     private static boolean checkObfuscation = true;
 
-    private static HashMap<Class<?>, Method> HMCCache = new HashMap<Class<?>, Method>();
+    private static final HashMap<Class<?>, Method> HMCCache = new HashMap<>();
 
     public static ReflectionCache guiContainerClass;
 
@@ -27,38 +27,22 @@ public class Reflection {
 
         guiContainerClass = new ReflectionCache();
 
-        try {
-            Field f = getField(GuiContainer.class, getObfuscatedName(Constants.IGNOREMOUSEUP_NAME));
-            guiContainerClass.storeField(Constants.IGNOREMOUSEUP_NAME.forgeName, f);
-        } catch (NoSuchFieldException e) {
-            MTLog.logger.info("Could not retrieve GuiContainer.ignoreMouseUp.");
-            guiContainerClass = null;
-            return;
+        for (ObfuscatedName fieldName : Constants.FIELDS) {
+            try {
+                Field f = getGuiField(getObfuscatedName(fieldName));
+                guiContainerClass.storeField(fieldName.forgeName, f);
+            } catch (NoSuchFieldException e) {
+                MTLog.logger.error("Could not reflect GuiContainer." + fieldName.mcpName);
+                guiContainerClass = null;
+                return;
+            }
         }
 
         try {
-            Field f = getField(GuiContainer.class, getObfuscatedName(Constants.DRAGSPLITTING_NAME));
-            guiContainerClass.storeField(Constants.DRAGSPLITTING_NAME.forgeName, f);
-        } catch (NoSuchFieldException e) {
-            MTLog.logger.info("Could not retrieve GuiContainer.dragSplitting.");
-            guiContainerClass = null;
-            return;
-        }
+            Method m = getGuiMethod(getObfuscatedName(Constants.GETSLOTATPOSITION_NAME),
+                                    int.class,
+                                    int.class);
 
-        try {
-            Field f = getField(GuiContainer.class, getObfuscatedName(Constants.DRAGSPLITTINGBUTTON_NAME));
-            guiContainerClass.storeField(Constants.DRAGSPLITTINGBUTTON_NAME.forgeName, f);
-        } catch (NoSuchFieldException e) {
-            MTLog.logger.info("Could not retrieve GuiContainer.dragSplittingButton.");
-            guiContainerClass = null;
-            return;
-        }
-
-        try {
-            Method m = getMethod(GuiContainer.class,
-                    getObfuscatedName(Constants.GETSLOTATPOSITION_NAME),
-                    int.class,
-                    int.class);
             guiContainerClass.storeMethod(Constants.GETSLOTATPOSITION_NAME.forgeName, m);
         } catch (NoSuchMethodException e) {
             MTLog.logger.info("Could not retrieve GuiContainer.getSlotAtPosition().");
@@ -119,35 +103,26 @@ public class Reflection {
         }
     }
 
-    public static boolean doesClassExist(String name) {
-        try {
-            Class.forName(name);
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
-    }
-
-    private static Field getField(Class<?> clazz, String name) throws NoSuchFieldException {
+    private static Field getGuiField(String name) throws NoSuchFieldException {
         Field field;
 
         try {
-            field = clazz.getField(name);
+            field = GuiContainer.class.getField(name);
         } catch (NoSuchFieldException e) {
-            field = clazz.getDeclaredField(name);
+            field = GuiContainer.class.getDeclaredField(name);
         }
 
         field.setAccessible(true);
         return field;
     }
 
-    private static Method getMethod(Class<?> clazz, String name, Class<?>... args) throws NoSuchMethodException {
+    private static Method getGuiMethod(String name, Class<?>... args) throws NoSuchMethodException {
         Method method;
 
         try {
-            method = clazz.getMethod(name, args);
+            method = GuiContainer.class.getMethod(name, args);
         } catch (NoSuchMethodException e) {
-            method = clazz.getDeclaredMethod(name, args);
+            method = GuiContainer.class.getDeclaredMethod(name, args);
         }
 
         method.setAccessible(true);
@@ -183,11 +158,11 @@ public class Reflection {
         checkObfuscation = false;
 
         try {
-            getField(GuiContainer.class, Constants.IGNOREMOUSEUP_NAME.mcpName);
+            getGuiField(Constants.IGNOREMOUSEUP_NAME.mcpName);
             obfuscation = Obfuscation.MCP;
         } catch (NoSuchFieldException e) {
             try {
-                getField(GuiContainer.class, Constants.IGNOREMOUSEUP_NAME.forgeName);
+                getGuiField(Constants.IGNOREMOUSEUP_NAME.forgeName);
                 obfuscation = Obfuscation.FORGE;
             } catch (NoSuchFieldException ex) {
                 obfuscation = Obfuscation.VANILLA;
