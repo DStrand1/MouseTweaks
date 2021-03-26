@@ -1,51 +1,44 @@
 buildscript {
 	repositories {
-		mavenLocal()
 		mavenCentral()
-		jcenter()
 		maven {
-			name = "sonatype"
-			url = "https://oss.sonatype.org/content/repositories/snapshots/"
-		}
-		maven {
-			name = "forge"
 			url = "http://files.minecraftforge.net/maven"
-		}
-		maven {
-			name = 'sponge'
-			url = 'http://repo.spongepowered.org/maven'
 		}
 	}
 	dependencies {
 		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-		classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
 	}
 }
 
-//plugins {
-//	id "org.gradle.java"
-//	id "com.scuilion.syntastic" version "0.3.8"
-//}
 
-apply plugin: 'net.minecraftforge.gradle.liteloader'
-apply plugin: 'org.spongepowered.mixin'
-//apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.10"
-group = "yalter.mousetweaks"
+version = "3.0"
+group = "dan.mousetweaks"
 archivesBaseName = "MouseTweaks"
 
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+	sourceCompatibility = targetCompatibility = '1.8'
+}
+
 minecraft {
-	//version = "1.12.1-14.22.0.2452"
-	version = "1.12.2"
+	version = "1.12.2-14.23.5.2847"
 	runDir = "run"
-	mappings = "snapshot_20170919"
+	mappings = "stable_39"
 
 	replace '@VERSION@', project.version
 }
 
-mixin {
-	defaultObfuscationEnv notch
+repositories {
+    maven {
+        name = "JEI"
+        url = "http://dvs1.progwml6.com/files/maven/"
+    }
+}
+
+dependencies {
+    deobfCompile "mezz.jei:jei_1.12.2:+"
 }
 
 jar {
@@ -58,35 +51,18 @@ sourceJar {
 	archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}-src.jar"
 }
 
-dependencies {
-	provided files('forgeSrc-1.12.1-14.22.0.2452.jar')
-}
-
-sourceSets {
-	main {
-//		java {
-//			exclude '**/liteloader/*'
-//		}
-		resources {
-			exclude 'litemod.json'
-		}
-	}
-}
-
 processResources {
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version
 
 	from(sourceSets.main.resources.srcDirs) {
 		include 'mcmod.info'
-		include 'litemod.json'
 
 		expand 'version':project.version, 'mcversion':project.minecraft.version
 	}
 
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
-		exclude 'litemod.json'
 	}
 }
 
@@ -98,11 +74,3 @@ task apiJar(type: Jar) {
 artifacts {
 	archives apiJar
 }
-
-//allprojects {
-//	gradle.projectsEvaluated {
-//		tasks.withType(JavaCompile) {
-//			options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-//		}
-//	}
-//}
