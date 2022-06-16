@@ -1,33 +1,35 @@
 buildscript {
-	repositories {
-		mavenCentral()
-		maven {
-			url = "http://files.minecraftforge.net/maven"
-		}
-	}
-	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-	}
+    repositories {
+        maven {
+            url = "https://maven.cleanroommc.com"
+        }
+        maven {
+            url = "https://repo.spongepowered.org/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
 }
 
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "3.1.1"
-group = "dan.mousetweaks"
+group = "com.cleanroommc"
 archivesBaseName = "MouseTweaks"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
-	sourceCompatibility = targetCompatibility = '1.8'
+    sourceCompatibility = targetCompatibility = '1.8'
 }
 
 minecraft {
-	version = "1.12.2-14.23.5.2847"
-	runDir = "run"
-	mappings = "stable_39"
+    version = "1.12.2-14.23.5.2847"
+    runDir = "run"
+    mappings = "stable_39"
 
-	replace '@VERSION@', project.version
+    replace '@VERSION@', project.version
 }
 
 repositories {
@@ -42,35 +44,35 @@ dependencies {
 }
 
 jar {
-	from sourceSets.api.output
-	archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}.jar"
+    from sourceSets.api.output
+    archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}.jar"
 }
 
 sourceJar {
-	from sourceSets.api.allSource
-	archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}-src.jar"
+    from sourceSets.api.allSource
+    archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}-src.jar"
 }
 
 processResources {
-	inputs.property "version", project.version
-	inputs.property "mcversion", project.minecraft.version
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
 
-	from(sourceSets.main.resources.srcDirs) {
-		include 'mcmod.info'
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
 
-		expand 'version':project.version, 'mcversion':project.minecraft.version
-	}
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
 
-	from(sourceSets.main.resources.srcDirs) {
-		exclude 'mcmod.info'
-	}
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
 }
 
 task apiJar(type: Jar) {
-	from sourceSets.api.output
-	archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}-api.jar"
+    from sourceSets.api.output
+    archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}-api.jar"
 }
 
 artifacts {
-	archives apiJar
+    archives apiJar
 }
