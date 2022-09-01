@@ -1,8 +1,12 @@
 package yalter.mousetweaks;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import moze_intel.projecte.gameObjs.gui.GUICondenser;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -13,11 +17,35 @@ import net.minecraftforge.fml.relauncher.Side;
 import yalter.mousetweaks.util.Constants;
 import yalter.mousetweaks.util.MTLog;
 
+import java.util.Set;
+
 @Mod(   modid = Constants.MOD_ID, // If this isn't here, the mod doesn't load.
         version = Constants.VERSION, // If this isn't here, FML complains in the log.
         useMetadata = true, // The rest of stuff is fine being exclusively in mcmod.info.
         clientSideOnly = true)
 public class MouseTweaks {
+
+    @Mod.Instance
+    public static MouseTweaks instance;
+
+    private final Set<Class<? extends GuiScreen>> mouseTweaksBlacklist = new ObjectOpenHashSet<>();
+    private final Set<Class<? extends GuiScreen>> wheelTweaksBlacklist = new ObjectOpenHashSet<>();
+
+    public void addMouseTweakBlacklist(Class<? extends GuiScreen> clazz) {
+        this.mouseTweaksBlacklist.add(clazz);
+    }
+
+    public void addWheelTweaksBlacklist(Class<? extends GuiScreen> clazz) {
+        this.wheelTweaksBlacklist.add(clazz);
+    }
+
+    public boolean isMouseTweakDisabled(Class<? extends GuiScreen> clazz) {
+        return this.mouseTweaksBlacklist.contains(clazz);
+    }
+
+    public boolean isWheelTweakDisabled(Class<? extends GuiScreen> clazz) {
+        return this.wheelTweaksBlacklist.contains(clazz);
+    }
 
     @EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
@@ -29,6 +57,10 @@ public class MouseTweaks {
         if (event.getSide() != Side.CLIENT) {
             MTLog.logger.info("MouseTweaks disabled because we are not running on the client");
             return;
+        }
+        if (Loader.isModLoaded("projecte")) {
+            mouseTweaksBlacklist.add(GUICondenser.class);
+            wheelTweaksBlacklist.add(GUICondenser.class);
         }
         Main.initialize();
         MinecraftForge.EVENT_BUS.register(this);
