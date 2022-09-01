@@ -2,6 +2,7 @@ package yalter.mousetweaks;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import moze_intel.projecte.gameObjs.gui.GUICondenser;
+import moze_intel.projecte.gameObjs.gui.GUICondenserMK2;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -61,6 +62,8 @@ public class MouseTweaks {
         if (Loader.isModLoaded("projecte")) {
             mouseTweaksBlacklist.add(GUICondenser.class);
             wheelTweaksBlacklist.add(GUICondenser.class);
+            mouseTweaksBlacklist.add(GUICondenserMK2.class);
+            wheelTweaksBlacklist.add(GUICondenserMK2.class);
         }
         Main.initialize();
         MinecraftForge.EVENT_BUS.register(this);
