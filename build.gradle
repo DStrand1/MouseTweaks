@@ -1,79 +1,158 @@
-buildscript {
-    repositories {
-        maven {
-            url = "https://maven.cleanroommc.com"
-        }
-        maven {
-            url = "https://repo.spongepowered.org/maven"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-    }
+import com.gtnewhorizons.retrofuturagradle.mcp.ReobfuscatedJar
+import org.jetbrains.gradle.ext.Gradle
+
+plugins {
+    id("java")
+    id("java-library")
+    id("maven-publish")
+    id("eclipse")
+    id("org.jetbrains.gradle.plugin.idea-ext") version "$idea_ext_version"
+    id("com.gtnewhorizons.retrofuturagradle") version "$rfg_version"
+    id("com.matthewprenger.cursegradle") version "$curseforge_gradle_version"
 }
 
+version = project.mod_version
+group = project.mod_group
+archivesBaseName = project.archives_base_name
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+// Set the toolchain version to decouple the Java we run Gradle with from the Java used to compile and run the mod
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+        // Azul covers the most platforms for Java 8 toolchains, crucially including MacOS arm64
+        vendor.set(org.gradle.jvm.toolchain.JvmVendorSpec.AZUL)
+    }
+    // Generate sources and javadocs jars when building and publishing
+    withSourcesJar()
+    // withJavadocJar() Not Needed
+}
 
-version = "3.1.2"
-group = "com.cleanroommc"
-archivesBaseName = "MouseTweaks"
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}
 
-sourceCompatibility = targetCompatibility = '1.8'
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+configurations {
+    embed
+    implementation.extendsFrom(embed)
 }
 
 minecraft {
-    version = "1.12.2-14.23.5.2847"
-    runDir = "run"
-    mappings = "stable_39"
+    mcVersion = '1.12.2'
+    extraRunJvmArguments.add("-ea:${project.group}")
 
-    replace '@VERSION@', project.version
+    mcpMappingChannel = "snapshot"
+    mcpMappingVersion = "20170925"
+
+    useDependencyAccessTransformers = true
+
+    injectedTags.put("VERSION", project.version)
+}
+
+// Generate a my.project.Tags class with the version number as a field
+tasks.injectTags.configure {
+    outputClassName.set("${project.group}.Tags")
 }
 
 repositories {
     maven {
-        url "https://cursemaven.com"
+        url = 'https://maven.cleanroommc.com'
     }
+    maven { url = "https://repo.spongepowered.org/maven" }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    mavenLocal() // Must be last for caching to work
 }
 
 dependencies {
-    deobfCompile "curse.maven:jei-238222:4393461"
-    compileOnly "curse.maven:projectE-226410:2702991"
-    compileOnly "curse.maven:packagedauto-308380:4478952"
-}
-
-jar {
-    from sourceSets.api.output
-    archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}.jar"
-}
-
-sourceJar {
-    from sourceSets.api.allSource
-    archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}-src.jar"
+    if (project.debug_jei.toBoolean()) {
+        implementation rfg.deobf("curse.maven:jei-238222:${jei_file_id}")
+    } else {
+        compileOnly rfg.deobf("curse.maven:jei-238222:${jei_file_id}")
+    }
+    if (project.debug_projecte.toBoolean()) {
+        implementation rfg.deobf("curse.maven:projecte-226410:${projecte_file_id}")
+    } else {
+        compileOnly rfg.deobf("curse.maven:projecte-226410:${projecte_file_id}")
+    }
+    if (project.debug_pauto.toBoolean()) {
+        implementation rfg.deobf("curse.maven:pauto-308380:${pauto_file_id}")
+    } else {
+        compileOnly rfg.deobf("curse.maven:pauto-308380:${pauto_file_id}")
+    }
 }
 
 processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-
-        expand 'version': project.version, 'mcversion': project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+    // this will ensure that this task is redone when the versions change.
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', project.minecraft.version
+    // replace stuff in mcmod.info, nothing else
+    filesMatching(['mcmod.info', 'pack.mcmeta']) { fcd ->
+        // replace version and mcversion
+        fcd.expand (
+                'version': project.version,
+                'mcversion': project.minecraft.version
+        )
     }
 }
 
-task apiJar(type: Jar) {
+jar {
+    manifest {
+        def attribute_map = [:]
+        attributes(attribute_map)
+    }
+    // Add all embedded dependencies into the jar
+    from(provider{ configurations.embed.collect {it.isDirectory() ? it : zipTree(it)} })
+
+    archiveClassifier = "deobf"
+}
+
+tasks.register('apiJar', Jar) {
     from sourceSets.api.output
-    archiveName = "${project.archivesBaseName}-${version}-mc${project.minecraft.version}-api.jar"
+    archiveClassifier = "api"
 }
 
 artifacts {
     archives apiJar
+}
+
+idea {
+    module { inheritOutputDirs = true }
+    project { settings {
+        runConfigurations {
+            "1. Setup Workspace"(Gradle) {
+                taskNames = ["setupDecompWorkspace"]
+            }
+            "2. Build Jars"(Gradle) {
+                taskNames = ["build"]
+            }
+            "3. Run Client"(Gradle) {
+                taskNames = ["runClient"]
+            }
+            "4. Run Server"(Gradle) {
+                taskNames = ["runServer"]
+            }
+            "5. Run Obfuscated Client"(Gradle) {
+                taskNames = ["runObfClient"]
+            }
+            "6. Run Obfuscated Server"(Gradle) {
+                taskNames = ["runObfServer"]
+            }
+        }
+        compiler.javac {
+            afterEvaluate {
+                javacAdditionalOptions = "-encoding utf8"
+                moduleJavacAdditionalOptions = [
+                        (project.name + ".main"): tasks.compileJava.options.compilerArgs.collect { '"' + it + '"' }.join(' ')
+                ]
+            }
+        }
+    }}
+}
+
+tasks.named("processIdeaSettings").configure {
+    dependsOn("injectTags")
 }
