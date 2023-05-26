@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import thelm.packagedauto.client.gui.GuiEncoder;
 import yalter.mousetweaks.util.Constants;
 import yalter.mousetweaks.util.MTLog;
 
@@ -64,6 +65,10 @@ public class MouseTweaks {
             wheelTweaksBlacklist.add(GUICondenser.class);
             mouseTweaksBlacklist.add(GUICondenserMK2.class);
             wheelTweaksBlacklist.add(GUICondenserMK2.class);
+        }
+        if (Loader.isModLoaded("packagedauto")) {
+            mouseTweaksBlacklist.add(GuiEncoder.class);
+            wheelTweaksBlacklist.add(GuiEncoder.class);
         }
         Main.initialize();
         MinecraftForge.EVENT_BUS.register(this);

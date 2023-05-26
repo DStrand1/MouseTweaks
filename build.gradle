@@ -34,13 +34,14 @@ minecraft {
 
 repositories {
     maven {
-        name = "JEI"
-        url = "http://dvs1.progwml6.com/files/maven/"
+        url "https://cursemaven.com"
     }
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_1.12.2:+"
+    deobfCompile "curse.maven:jei-238222:4393461"
+    compileOnly "curse.maven:projectE-226410:2702991"
+    compileOnly "curse.maven:packagedauto-308380:4478952"
 }
 
 jar {
