@@ -1,5 +1,7 @@
 package yalter.mousetweaks.util;
 
+import yalter.Tags;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -7,7 +9,7 @@ import java.util.stream.Stream;
 public class Constants {
     public static final String MOD_NAME = "Mouse Tweaks";
     public static final String MOD_ID = "mousetweaks";
-    public static final String VERSION = "@VERSION@";
+    public static final String VERSION = Tags.VERSION;
 
     // Names for reflected fields
     public static final ObfuscatedName IGNOREMOUSEUP_NAME = new ObfuscatedName("ignoreMouseUp", "field_146995_H", "I");

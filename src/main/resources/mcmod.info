@@ -1,13 +1,13 @@
 [
   {
     "modid": "mousetweaks",
-    "name": "dan's Mouse Tweaks",
+    "name": "Mouse Tweaks Unofficial",
     "description": "A mod that enhances the inventory management by adding various additional functions to the usual mouse buttons.",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "https://www.curseforge.com/minecraft/mc-mods/dans-mouse-tweaks",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/mouse-tweaks-unofficial",
     "authorList": [
-      "dan, YaLTeR"
+      "CleanroomMC, serenibyss, YaLTeR"
     ],
     "credits": "Thanks to YaLTeR for creating the original MouseTweaks from which this mod is forked.",
     "logoFile": "mousetweaks_logo.png"
