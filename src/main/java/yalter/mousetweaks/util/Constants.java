@@ -1,14 +1,14 @@
 package yalter.mousetweaks.util;
 
-import yalter.Tags;
+import yalter.mousetweaks.Tags;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Constants {
-    public static final String MOD_NAME = "Mouse Tweaks";
-    public static final String MOD_ID = "mousetweaks";
+    public static final String MOD_NAME = Tags.MODNAME;
+    public static final String MOD_ID = Tags.MODID;
     public static final String VERSION = Tags.VERSION;
 
     // Names for reflected fields
