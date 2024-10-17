@@ -7,6 +7,7 @@ import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import yalter.mousetweaks.api.IMTModGuiContainer;
 import yalter.mousetweaks.api.IMTModGuiContainer2;
 import yalter.mousetweaks.api.IMTModGuiContainer2Ex;
@@ -85,6 +86,8 @@ public class Main {
             } else {
                 disableForThisContainer = handler.isMouseTweaksDisabled();
                 disableWheelForThisContainer = handler.isWheelTweakDisabled();
+
+                if (MTConfig.wheelTweak && !disableWheelForThisContainer) Mouse.getDWheel(); // reset the mouse wheel delta
 
                 MTLog.logger.debug("Handler: "
                         + handler.getClass().getSimpleName()
